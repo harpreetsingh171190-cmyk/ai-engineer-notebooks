@@ -1,0 +1,18 @@
+name: Notebook quality checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate all notebooks and local examples
+        run: python scripts/check_notebooks.py
+      - name: Compile package
+        run: python -m compileall -q aien
